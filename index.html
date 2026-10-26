@@ -143,7 +143,7 @@ section.s{scroll-margin-top:64px}
 </div>
 
 <section class="s" id="render">
-  <div class="s-head"><span>01 — Render</span><span>10 viste</span></div>
+  <div class="s-head"><span>01 — Render</span><span id="rCount"></span></div>
   <div class="grid" id="gRender"></div>
 </section>
 
@@ -605,6 +605,7 @@ renderPanel();
 requestAnimationFrame(frame);
 })();
 </script>
+<script src="render/list.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/GLTFExporter.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/exporters/OBJExporter.js"></script>
 <script>
@@ -621,7 +622,9 @@ requestAnimationFrame(frame);
     f.querySelector('button').addEventListener('click',()=>openLb(big||src,`${num} — ${label}`));
     f.querySelector('img').addEventListener('error',()=>f.remove()); // render non ancora generati
     return f}
-  RENDERS.forEach(([n,l,f])=>$('gRender').appendChild(fig(n,l,`render/${f}.jpg`,[['PNG',`render/${f}.png`],['JPG',`render/${f}.jpg`]],`render/${f}.png`)));
+  const done=RENDERS.filter(r=>(window.RENDER_FILES||[]).includes(r[2]));
+  $('rCount').textContent=done.length+(done.length===1?' vista':' viste');
+  done.forEach(([n,l,f])=>$('gRender').appendChild(fig(n,l,`render/${f}.jpg`,[['PNG',`render/${f}.png`],['JPG',`render/${f}.jpg`]],`render/${f}.png`)));
   SHEETS.forEach(([n,l,f])=>$('gSheets').appendChild(fig(n,l,`media/${f}.jpg`,[['PDF',`downloads/${f}.pdf`],['JPG',`media/${f}.jpg`]])));
   RENDERS.forEach(([n,l,f])=>$('gViews').appendChild(fig(n,l,`media/${f}.jpg`,[['JPG',`media/${f}.jpg`]])));
 
